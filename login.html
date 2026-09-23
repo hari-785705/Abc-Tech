@@ -1,513 +1,1193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABC Tech - Login</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        html, body {
-            height: 100%;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-            background: radial-gradient(circle at 20% 20%, #0f2447 0%, #060b1a 55%, #030509 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC Tech - Secure Login</title>
 
-        /* ---------- animated tech background ---------- */
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0,198,255,.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,198,255,.08) 1px, transparent 1px);
-            background-size: 42px 42px;
-            animation: gridShift 18s linear infinite;
-        }
-        @keyframes gridShift {
-            to { background-position: 42px 42px, 42px 42px; }
-        }
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(70px);
-            opacity: .55;
-            pointer-events: none;
-        }
-        .blob1 {
-            width: 380px; height: 380px;
-            background: radial-gradient(circle, #00c6ff, transparent 70%);
-            top: -100px; left: -100px;
-            animation: floatA 12s ease-in-out infinite;
-        }
-        .blob2 {
-            width: 420px; height: 420px;
-            background: radial-gradient(circle, #7b2ff7, transparent 70%);
-            bottom: -140px; right: -120px;
-            animation: floatB 14s ease-in-out infinite;
-        }
-        .blob3 {
-            width: 260px; height: 260px;
-            background: radial-gradient(circle, #0072ff, transparent 70%);
-            top: 50%; left: 60%;
-            animation: floatC 16s ease-in-out infinite;
-        }
-        @keyframes floatA {
-            0%,100% { transform: translate(0,0); }
-            50% { transform: translate(60px, 40px); }
-        }
-        @keyframes floatB {
-            0%,100% { transform: translate(0,0); }
-            50% { transform: translate(-50px, -60px); }
-        }
-        @keyframes floatC {
-            0%,100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(-40px, 30px) scale(1.15); }
-        }
-        .particle {
-            position: fixed;
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: #00c6ff;
-            opacity: .7;
-            animation: rise linear infinite;
-        }
-        @keyframes rise {
-            from { transform: translateY(0); opacity: 0; }
-            10% { opacity: .8; }
-            90% { opacity: .8; }
-            to { transform: translateY(-100vh); opacity: 0; }
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        /* ---------- auth card ---------- */
-        .auth-card {
-            position: relative;
-            z-index: 2;
-            width: 380px;
-            max-width: 90vw;
-            padding: 34px 32px 28px;
-            background: rgba(15, 25, 45, 0.55);
-            border: 1px solid rgba(0, 198, 255, 0.25);
-            border-radius: 18px;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 20px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.03) inset;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        .login-brand { text-align: center; margin-bottom: 18px; }
-        .login-brand .brand-mark {
-            width: 56px;
-            height: 52px;
-            margin: 0 auto 10px;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg,#00c6ff,#0072ff,#7b2ff7);
-            background-size: 200% 200%;
-            animation: brandGlow 6s ease infinite, brandPulse 3s ease-in-out infinite;
-            color: #fff;
-            font-family: 'Arial Black', Arial, sans-serif;
-            font-weight: bold;
-            letter-spacing: -1px;
-            font-size: 19px;
-            box-shadow: 0 4px 18px rgba(0,114,255,.5);
-        }
-        .login-brand .brand-name {
-            display: block;
-            font-family: 'Times New Roman', Times, serif;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 28px;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg,#00c6ff,#0072ff,#7b2ff7,#00c6ff);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: brandShine 5s linear infinite;
-        }
-        .login-brand .brand-dot { color: #00c6ff; -webkit-text-fill-color: #00c6ff; }
-        .login-brand .brand-tag {
-            display: block;
-            margin-top: 2px;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #7fd8ff;
-        }
-        @keyframes brandShine { to { background-position: 300% center; } }
-        @keyframes brandGlow { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
-        @keyframes brandPulse {
-            0%,100%{ box-shadow:0 4px 18px rgba(0,114,255,.5); }
-            50%{ box-shadow:0 4px 28px rgba(0,198,255,.85); }
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 15% 15%, #123d72, transparent 35%),
+        radial-gradient(circle at 85% 85%, #35106e, transparent 35%),
+        #030712;
+    color: white;
+}
 
-        /* ---------- tab switcher ---------- */
-        .tabs {
-            position: relative;
-            display: flex;
-            background: rgba(255,255,255,.06);
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 22px;
-        }
-        .tab-indicator {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: calc(50% - 4px);
-            height: calc(100% - 8px);
-            background: linear-gradient(135deg,#00c6ff,#0072ff);
-            border-radius: 7px;
-            transition: transform .35s cubic-bezier(.65,0,.35,1);
-            box-shadow: 0 4px 14px rgba(0,114,255,.45);
-        }
-        .tabs.on-register .tab-indicator { transform: translateX(100%); }
-        .tab-btn {
-            position: relative;
-            z-index: 1;
-            flex: 1;
-            padding: 9px 0;
-            background: none;
-            border: none;
-            color: #b9c8e0;
-            font-family: 'Poppins', sans-serif;
-            font-size: .85em;
-            font-weight: 600;
-            letter-spacing: .5px;
-            cursor: pointer;
-            transition: color .3s;
-        }
-        .tab-btn.active { color: #fff; }
+/* Background */
 
-        /* ---------- panels ---------- */
-        .tab-panels { position: relative; }
-        .tab-panel {
-            display: none;
-            animation: panelIn .35s ease;
-        }
-        .tab-panel.active { display: block; }
-        @keyframes panelIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,198,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,198,255,.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid 15s linear infinite;
+}
 
-        h2 { font-size: 1.3em; color: #fff; text-align: center; margin-bottom: 4px; font-weight: 600; }
-        .sub { text-align: center; color: #8ea3c4; font-size: .78em; margin-bottom: 18px; }
+@keyframes grid {
+    to {
+        background-position: 40px 40px;
+    }
+}
 
-        .input-group { position: relative; width: 100%; margin: 16px 0; }
-        .input-group input {
-            width: 100%;
-            height: 42px;
-            font-size: .92em;
-            color: #fff;
-            padding: 0 38px 0 36px;
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(255,255,255,.18);
-            outline: none;
-            border-radius: 7px;
-            transition: border-color .25s, box-shadow .25s, background .25s;
-        }
-        .input-group input:focus {
-            border-color: #00c6ff;
-            background: rgba(0,198,255,.07);
-            box-shadow: 0 0 0 3px rgba(0,198,255,.15);
-        }
-        .input-group input::placeholder { color: #8296b8; }
-        .input-group .icon {
-            position: absolute;
-            left: 10px;
-            top: 0;
-            color: #7fd8ff;
-            font-size: 1.15em;
-            line-height: 42px;
-        }
-        .input-group .toggle-eye {
-            position: absolute;
-            right: 10px;
-            top: 0;
-            line-height: 42px;
-            color: #8296b8;
-            cursor: pointer;
-            font-size: 1.1em;
-            user-select: none;
-        }
-        .input-group .toggle-eye:hover { color: #00c6ff; }
+.blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
 
-        .hint { margin: -10px 0 6px; font-size: .72em; min-height: 14px; transition: color .2s; }
-        .hint.ok { color: #4ade80; }
-        .hint.bad { color: #ff8080; }
+.blob1 {
+    width: 350px;
+    height: 350px;
+    background: #00c6ff;
+    opacity: .16;
+    top: -100px;
+    left: -100px;
+    animation: float1 10s infinite alternate;
+}
 
-        .strength-bar {
-            height: 4px;
-            border-radius: 3px;
-            background: rgba(255,255,255,.1);
-            margin: -10px 0 14px;
-            overflow: hidden;
-        }
-        .strength-bar span {
-            display: block;
-            height: 100%;
-            width: 0%;
-            border-radius: 3px;
-            transition: width .3s ease, background .3s ease;
-        }
+.blob2 {
+    width: 400px;
+    height: 400px;
+    background: #7b2ff7;
+    opacity: .18;
+    right: -120px;
+    bottom: -130px;
+    animation: float2 12s infinite alternate;
+}
 
-        .forgot-pass { margin: -8px 0 16px; text-align: right; }
-        .forgot-pass a { color: #7fd8ff; font-size: .8em; text-decoration: none; }
-        .forgot-pass a:hover { text-decoration: underline; }
+@keyframes float1 {
+    to {
+        transform: translate(70px, 50px);
+    }
+}
 
-        .btn {
-            position: relative;
-            width: 100%;
-            height: 44px;
-            background: linear-gradient(135deg,#00c6ff,#0072ff);
-            box-shadow: 0 6px 18px rgba(0,114,255,.4);
-            font-size: .95em;
-            color: #fff;
-            font-weight: 600;
-            letter-spacing: .5px;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            transition: transform .2s, box-shadow .2s, filter .2s;
-        }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn:active { transform: translateY(0); }
+@keyframes float2 {
+    to {
+        transform: translate(-60px, -50px);
+    }
+}
 
-        .success-banner {
-            display: none;
-            margin: 0 0 16px;
-            padding: 10px 12px;
-            background: rgba(74, 222, 128, .12);
-            border: 1px solid #4ade80;
-            border-radius: 7px;
-            color: #d3ffe4;
-            font-size: .8em;
-            text-align: center;
-        }
-        .field-error {
-            display: none;
-            margin: -10px 0 12px;
-            color: #ff8080;
-            font-size: .75em;
-        }
+.particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #00c6ff;
+    opacity: .7;
+    animation: rise linear infinite;
+}
 
-        .sign-link { font-size: .82em; text-align: center; margin-top: 16px; color: #8ea3c4; }
-        .sign-link a { color: #00c6ff; text-decoration: none; font-weight: 600; }
-        .sign-link a:hover { text-decoration: underline; }
-        .home-link { margin-top: 10px; }
+@keyframes rise {
+    from {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: .8;
+    }
+    90% {
+        opacity: .8;
+    }
+    to {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
 
-        @media (max-width: 420px){
-            .auth-card{
-                padding: 26px 20px 22px;
-            }
-            .login-brand .brand-name{
-                font-size: 24px;
-            }
-            .blob1, .blob2 { width: 260px; height: 260px; }
-            .blob3 { width: 180px; height: 180px; }
-        }
-    </style>
+/* Card */
+
+.auth-card {
+    position: relative;
+    z-index: 5;
+    width: 410px;
+    max-width: 94vw;
+    max-height: 94vh;
+    overflow-y: auto;
+    padding: 32px;
+    border-radius: 24px;
+    background: rgba(10, 20, 40, .72);
+    border: 1px solid rgba(0,198,255,.25);
+    backdrop-filter: blur(25px);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.6),
+        inset 0 0 30px rgba(255,255,255,.02);
+}
+
+.auth-card::-webkit-scrollbar {
+    width: 4px;
+}
+
+.auth-card::-webkit-scrollbar-thumb {
+    background: #0072ff;
+    border-radius: 10px;
+}
+
+/* Brand */
+
+.brand {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.brand-mark {
+    width: 58px;
+    height: 58px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 19px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff,#7b2ff7);
+    clip-path: polygon(
+        25% 0%,75% 0%,100% 50%,
+        75% 100%,25% 100%,0% 50%
+    );
+    box-shadow: 0 0 30px rgba(0,198,255,.5);
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.07);
+        box-shadow: 0 0 45px rgba(0,198,255,.8);
+    }
+}
+
+.brand-name {
+    display: block;
+    margin-top: 10px;
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg,#00c6ff,#fff,#7b2ff7,#00c6ff);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 300%;
+    }
+}
+
+.brand-tag {
+    color: #82dfff;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Tabs */
+
+.tabs {
+    position: relative;
+    display: flex;
+    padding: 4px;
+    margin-bottom: 23px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
+}
+
+.indicator {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    border-radius: 9px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    transition: .35s;
+}
+
+.tabs.register .indicator {
+    transform: translateX(100%);
+}
+
+.tab {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    padding: 10px;
+    border: 0;
+    background: transparent;
+    color: #91a5c5;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.tab.active {
+    color: white;
+}
+
+/* Panels */
+
+.panel {
+    display: none;
+    animation: show .35s ease;
+}
+
+.panel.active {
+    display: block;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    text-align: center;
+    font-size: 23px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #8499bb;
+    font-size: 12px;
+    margin: 5px 0 20px;
+}
+
+/* Inputs */
+
+.input-group {
+    position: relative;
+    margin: 14px 0;
+}
+
+.input-group input {
+    width: 100%;
+    height: 46px;
+    padding: 0 42px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.15);
+    outline: none;
+    background: rgba(255,255,255,.055);
+    color: white;
+    transition: .25s;
+}
+
+.input-group input:focus {
+    border-color: #00c6ff;
+    box-shadow: 0 0 0 3px rgba(0,198,255,.12);
+    background: rgba(0,198,255,.06);
+}
+
+.input-group input::placeholder {
+    color: #7185a5;
+}
+
+.icon {
+    position: absolute;
+    left: 13px;
+    top: 11px;
+    color: #72d9ff;
+    font-size: 20px;
+}
+
+.eye {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    cursor: pointer;
+    color: #8296b8;
+}
+
+.eye:hover {
+    color: #00c6ff;
+}
+
+/* Validation */
+
+.error {
+    display: none;
+    color: #ff8585;
+    font-size: 11px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+
+.success {
+    display: none;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #b8ffd1;
+    background: rgba(74,222,128,.1);
+    border: 1px solid #4ade80;
+    font-size: 12px;
+}
+
+.info {
+    display: none;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #9fe5ff;
+    background: rgba(0,198,255,.08);
+    border: 1px solid rgba(0,198,255,.4);
+    font-size: 12px;
+}
+
+/* Password strength */
+
+.strength {
+    height: 4px;
+    margin-top: -7px;
+    margin-bottom: 13px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(255,255,255,.1);
+}
+
+.strength span {
+    display: block;
+    width: 0;
+    height: 100%;
+    transition: .3s;
+}
+
+.strength-text {
+    font-size: 10px;
+    color: #8499bb;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+
+/* Remember */
+
+.remember {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0 18px;
+    font-size: 11px;
+    color: #91a5c5;
+}
+
+.remember label {
+    cursor: pointer;
+}
+
+.remember input {
+    accent-color: #00c6ff;
+}
+
+.forgot {
+    color: #72d9ff;
+    cursor: pointer;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* Button */
+
+.btn {
+    width: 100%;
+    height: 47px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg,#00c6ff,#0072ff,#673de6);
+    background-size: 200%;
+    box-shadow: 0 8px 25px rgba(0,114,255,.35);
+    transition: .25s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background-position: 100%;
+    box-shadow: 0 12px 30px rgba(0,114,255,.5);
+}
+
+.btn:active {
+    transform: scale(.98);
+}
+
+.btn.loading {
+    pointer-events: none;
+    opacity: .7;
+}
+
+/* Links */
+
+.switch {
+    text-align: center;
+    margin-top: 17px;
+    color: #8196b6;
+    font-size: 12px;
+}
+
+.switch a {
+    color: #00c6ff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.home {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.home a {
+    color: #8296b8;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.home a:hover {
+    color: #00c6ff;
+}
+
+/* Forgot popup */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(8px);
+}
+
+.modal-box {
+    width: 350px;
+    max-width: 90%;
+    padding: 28px;
+    border-radius: 18px;
+    background: #0b162b;
+    border: 1px solid rgba(0,198,255,.3);
+    box-shadow: 0 25px 70px black;
+}
+
+.modal-box h3 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.modal-box p {
+    color: #8296b8;
+    text-align: center;
+    font-size: 11px;
+    margin-bottom: 18px;
+}
+
+.close {
+    float: right;
+    color: #8296b8;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+@media(max-width:430px) {
+    .auth-card {
+        padding: 25px 20px;
+    }
+
+    .brand-name {
+        font-size: 25px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="bg-grid"></div>
-    <span class="blob blob1"></span>
-    <span class="blob blob2"></span>
-    <span class="blob blob3"></span>
-    <div id="particles"></div>
 
-    <div class="auth-card">
-        <div class="login-brand">
-            <div class="brand-mark">AT</div>
-            <span class="brand-name">ABC Tech<span class="brand-dot">.</span></span>
-            <span class="brand-tag">Powering Ideas Into Code</span>
-        </div>
+<div class="bg-grid"></div>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div id="particles"></div>
 
-        <div class="tabs" id="tabs">
-            <span class="tab-indicator"></span>
-            <button type="button" class="tab-btn active" data-tab="login">Login</button>
-            <button type="button" class="tab-btn" data-tab="register">Register</button>
-        </div>
+<div class="auth-card">
 
-        <div class="tab-panels">
-            <!-- LOGIN -->
-            <form id="loginForm" class="tab-panel active" novalidate>
-                <h2>Welcome back</h2>
-                <p class="sub">Log in to your ABC Tech account</p>
-                <p class="success-banner" id="successBanner">&#10003; Account created — you can log in now.</p>
-
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="person"></ion-icon></span>
-                    <input type="text" placeholder="Username" required>
-                </div>
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" id="loginPassword" placeholder="Password" required>
-                    <span class="toggle-eye" data-target="loginPassword"><ion-icon name="eye-off"></ion-icon></span>
-                </div>
-                <div class="forgot-pass"><a href="#">Forgot password?</a></div>
-                <button type="submit" class="btn">Login</button>
-                <p class="sign-link">New here? <a href="#" data-switch="register">Create an account</a></p>
-                <p class="sign-link home-link"><a href="index.html">&larr; Back to Home</a></p>
-            </form>
-
-            <!-- REGISTER -->
-            <form id="registerForm" class="tab-panel" novalidate>
-                <h2>Create account</h2>
-                <p class="sub">Join ABC Tech in a few seconds</p>
-
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="person"></ion-icon></span>
-                    <input type="text" placeholder="Full Name" required>
-                </div>
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                    <input type="email" placeholder="Email" required>
-                </div>
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="at"></ion-icon></span>
-                    <input type="text" placeholder="Username" required>
-                </div>
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" id="regPassword" placeholder="Password" required minlength="6">
-                    <span class="toggle-eye" data-target="regPassword"><ion-icon name="eye-off"></ion-icon></span>
-                </div>
-                <div class="strength-bar"><span id="strengthFill"></span></div>
-                <div class="input-group">
-                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" id="regConfirm" placeholder="Confirm Password" required minlength="6">
-                    <span class="toggle-eye" data-target="regConfirm"><ion-icon name="eye-off"></ion-icon></span>
-                </div>
-                <p class="hint" id="matchHint"></p>
-
-                <button type="submit" class="btn">Register</button>
-                <p class="sign-link">Already have an account? <a href="#" data-switch="login">Log in</a></p>
-                <p class="sign-link home-link"><a href="index.html">&larr; Back to Home</a></p>
-            </form>
-        </div>
+    <div class="brand">
+        <div class="brand-mark">AT</div>
+        <span class="brand-name">ABC Tech.</span>
+        <span class="brand-tag">Powering Ideas Into Code</span>
     </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script>
-        // ---- floating particles ----
-        var particleHost = document.getElementById('particles');
-        for (var i = 0; i < 26; i++) {
-            var p = document.createElement('span');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.bottom = '-10px';
-            p.style.animationDuration = (8 + Math.random() * 10) + 's';
-            p.style.animationDelay = (Math.random() * 10) + 's';
-            particleHost.appendChild(p);
+    <div class="tabs" id="tabs">
+        <span class="indicator"></span>
+        <button class="tab active" data-tab="login">Login</button>
+        <button class="tab" data-tab="register">Register</button>
+    </div>
+
+    <!-- LOGIN -->
+
+    <form id="loginForm" class="panel active">
+
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Login to your ABC Tech account</p>
+
+        <div class="success" id="loginSuccess"></div>
+        <div class="error" id="loginError"></div>
+
+        <div class="input-group">
+            <span class="icon">👤</span>
+            <input id="loginUser" type="text" placeholder="Username or Email">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">🔒</span>
+            <input id="loginPassword" type="password" placeholder="Password">
+            <span class="eye" data-target="loginPassword">👁</span>
+        </div>
+
+        <div class="remember">
+            <label>
+                <input type="checkbox" id="remember">
+                Remember me
+            </label>
+
+            <span class="forgot" id="forgotBtn">
+                Forgot password?
+            </span>
+        </div>
+
+        <button class="btn" type="submit" id="loginBtn">
+            Login
+        </button>
+
+        <p class="switch">
+            New to ABC Tech?
+            <a data-switch="register">Create an account</a>
+        </p>
+
+        <div class="home">
+            <a href="index.html">← Back to Home</a>
+        </div>
+
+    </form>
+
+    <!-- REGISTER -->
+
+    <form id="registerForm" class="panel">
+
+        <h2>Create Account</h2>
+        <p class="subtitle">Join ABC Tech in a few seconds</p>
+
+        <div class="success" id="registerSuccess"></div>
+        <div class="error" id="registerError"></div>
+
+        <div class="input-group">
+            <span class="icon">👤</span>
+            <input id="name" type="text" placeholder="Full Name">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">📱</span>
+            <input id="mobile" type="tel" placeholder="Mobile Number">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">✉</span>
+            <input id="email" type="email" placeholder="Email Address">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">@</span>
+            <input id="username" type="text" placeholder="Username">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">🔒</span>
+            <input id="password" type="password" placeholder="Password">
+            <span class="eye" data-target="password">👁</span>
+        </div>
+
+        <div class="strength">
+            <span id="strengthBar"></span>
+        </div>
+
+        <div class="strength-text" id="strengthText">
+            Password strength
+        </div>
+
+        <div class="input-group">
+            <span class="icon">🔐</span>
+            <input id="confirmPassword" type="password" placeholder="Confirm Password">
+            <span class="eye" data-target="confirmPassword">👁</span>
+        </div>
+
+        <button class="btn" type="submit" id="registerBtn">
+            Create Account
+        </button>
+
+        <p class="switch">
+            Already have an account?
+            <a data-switch="login">Login</a>
+        </p>
+
+        <div class="home">
+            <a href="index.html">← Back to Home</a>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- FORGOT PASSWORD -->
+
+<div class="modal" id="forgotModal">
+
+    <div class="modal-box">
+
+        <span class="close" id="closeModal">×</span>
+
+        <h3>Reset Password</h3>
+
+        <p>
+            Enter your registered email address.
+        </p>
+
+        <div class="input-group">
+            <span class="icon">✉</span>
+            <input id="resetEmail" type="email" placeholder="Email Address">
+        </div>
+
+        <div class="error" id="resetError"></div>
+        <div class="success" id="resetSuccess"></div>
+
+        <button class="btn" id="resetBtn">
+            Send Reset Link
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+/* PARTICLES */
+
+const particleHost = document.getElementById("particles");
+
+for(let i = 0; i < 30; i++) {
+
+    const p = document.createElement("span");
+
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.bottom = "-10px";
+    p.style.animationDuration =
+        (7 + Math.random() * 10) + "s";
+
+    p.style.animationDelay =
+        Math.random() * 8 + "s";
+
+    particleHost.appendChild(p);
+}
+
+/* TABS */
+
+const tabs = document.getElementById("tabs");
+const tabButtons = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".panel");
+
+function activateTab(name) {
+
+    tabButtons.forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.dataset.tab === name
+        );
+    });
+
+    panels.forEach(panel => {
+        panel.classList.toggle(
+            "active",
+            panel.id === name + "Form"
+        );
+    });
+
+    tabs.classList.toggle(
+        "register",
+        name === "register"
+    );
+}
+
+tabButtons.forEach(btn => {
+
+    btn.addEventListener("click", () => {
+        activateTab(btn.dataset.tab);
+    });
+
+});
+
+document.querySelectorAll("[data-switch]").forEach(link => {
+
+    link.addEventListener("click", e => {
+
+        e.preventDefault();
+
+        activateTab(link.dataset.switch);
+
+    });
+
+});
+
+/* PASSWORD SHOW/HIDE */
+
+document.querySelectorAll(".eye").forEach(eye => {
+
+    eye.addEventListener("click", () => {
+
+        const input =
+            document.getElementById(eye.dataset.target);
+
+        if(input.type === "password") {
+
+            input.type = "text";
+            eye.textContent = "🙈";
+
+        } else {
+
+            input.type = "password";
+            eye.textContent = "👁";
+
         }
 
-        // ---- tab switching (dynamic, no reload) ----
-        var tabs = document.getElementById('tabs');
-        var tabBtns = tabs.querySelectorAll('.tab-btn');
-        var panels = document.querySelectorAll('.tab-panel');
+    });
 
-        function activateTab(name) {
-            tabBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.tab === name); });
-            panels.forEach(function (p) { p.classList.toggle('active', p.id === name + 'Form'); });
-            tabs.classList.toggle('on-register', name === 'register');
+});
+
+/* PASSWORD STRENGTH */
+
+const password =
+    document.getElementById("password");
+
+const strengthBar =
+    document.getElementById("strengthBar");
+
+const strengthText =
+    document.getElementById("strengthText");
+
+password.addEventListener("input", () => {
+
+    const value = password.value;
+
+    let score = 0;
+
+    if(value.length >= 6) score++;
+    if(value.length >= 10) score++;
+    if(/[A-Z]/.test(value)) score++;
+    if(/[a-z]/.test(value)) score++;
+    if(/[0-9]/.test(value)) score++;
+    if(/[^A-Za-z0-9]/.test(value)) score++;
+
+    const levels = [
+        ["0%", "Password strength"],
+        ["20%", "Very Weak"],
+        ["40%", "Weak"],
+        ["60%", "Medium"],
+        ["80%", "Strong"],
+        ["100%", "Very Strong"]
+    ];
+
+    const level = Math.min(score, 5);
+
+    strengthBar.style.width = levels[level][0];
+    strengthText.textContent = levels[level][1];
+
+    const colors = [
+        "",
+        "#ff5555",
+        "#ff8c42",
+        "#facc15",
+        "#60a5fa",
+        "#4ade80"
+    ];
+
+    strengthBar.style.background = colors[level];
+
+});
+
+/* REGISTER */
+
+const registerForm =
+    document.getElementById("registerForm");
+
+registerForm.addEventListener("submit", e => {
+
+    e.preventDefault();
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const mobile =
+        document.getElementById("mobile").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim().toLowerCase();
+
+    const username =
+        document.getElementById("username").value.trim().toLowerCase();
+
+    const pass =
+        document.getElementById("password").value;
+
+    const confirm =
+        document.getElementById("confirmPassword").value;
+
+    const error =
+        document.getElementById("registerError");
+
+    const success =
+        document.getElementById("registerSuccess");
+
+    error.style.display = "none";
+    success.style.display = "none";
+
+    if(name.length < 3) {
+
+        showRegisterError(
+            "Please enter your full name."
+        );
+
+        return;
+    }
+
+    if(!/^[0-9]{10}$/.test(mobile)) {
+
+        showRegisterError(
+            "Enter a valid 10-digit mobile number."
+        );
+
+        return;
+    }
+
+    if(!/^[^ ]+@[^ ]+\.[^ ]+$/.test(email)) {
+
+        showRegisterError(
+            "Please enter a valid email address."
+        );
+
+        return;
+    }
+
+    if(username.length < 4) {
+
+        showRegisterError(
+            "Username must contain at least 4 characters."
+        );
+
+        return;
+    }
+
+    if(pass.length < 6) {
+
+        showRegisterError(
+            "Password must contain at least 6 characters."
+        );
+
+        return;
+    }
+
+    if(pass !== confirm) {
+
+        showRegisterError(
+            "Passwords do not match."
+        );
+
+        return;
+    }
+
+    const users =
+        JSON.parse(localStorage.getItem("abcTechUsers")) || [];
+
+    const exists = users.some(user =>
+        user.email === email ||
+        user.username === username
+    );
+
+    if(exists) {
+
+        showRegisterError(
+            "Email or username is already registered."
+        );
+
+        return;
+    }
+
+    const user = {
+        id: Date.now(),
+        name,
+        mobile,
+        email,
+        username,
+        password: pass
+    };
+
+    users.push(user);
+
+    localStorage.setItem(
+        "abcTechUsers",
+        JSON.stringify(users)
+    );
+
+    success.textContent =
+        "✓ Account created successfully!";
+
+    success.style.display = "block";
+
+    registerForm.reset();
+
+    strengthBar.style.width = "0%";
+    strengthText.textContent = "Password strength";
+
+    setTimeout(() => {
+
+        activateTab("login");
+
+        document.getElementById("loginSuccess").textContent =
+            "✓ Account created. You can login now.";
+
+        document.getElementById("loginSuccess").style.display =
+            "block";
+
+    }, 1200);
+
+});
+
+function showRegisterError(message) {
+
+    const error =
+        document.getElementById("registerError");
+
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+/* LOGIN */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+loginForm.addEventListener("submit", e => {
+
+    e.preventDefault();
+
+    const login =
+        document.getElementById("loginUser")
+        .value.trim()
+        .toLowerCase();
+
+    const pass =
+        document.getElementById("loginPassword")
+        .value;
+
+    const error =
+        document.getElementById("loginError");
+
+    const success =
+        document.getElementById("loginSuccess");
+
+    error.style.display = "none";
+    success.style.display = "none";
+
+    if(!login || !pass) {
+
+        showLoginError(
+            "Please enter username/email and password."
+        );
+
+        return;
+    }
+
+    const users =
+        JSON.parse(localStorage.getItem("abcTechUsers")) || [];
+
+    const user = users.find(u =>
+        (u.email === login || u.username === login) &&
+        u.password === pass
+    );
+
+    if(!user) {
+
+        const accountExists = users.some(u =>
+            u.email === login ||
+            u.username === login
+        );
+
+        if(!accountExists) {
+
+            showLoginError(
+                "Email/Username is not registered."
+            );
+
+        } else {
+
+            showLoginError(
+                "Incorrect password."
+            );
+
         }
-        tabBtns.forEach(function (b) {
-            b.addEventListener('click', function () { activateTab(b.dataset.tab); });
-        });
-        document.querySelectorAll('[data-switch]').forEach(function (a) {
-            a.addEventListener('click', function (e) {
-                e.preventDefault();
-                activateTab(a.dataset.switch);
-            });
-        });
 
-        // ---- password show/hide ----
-        document.querySelectorAll('.toggle-eye').forEach(function (eye) {
-            eye.addEventListener('click', function () {
-                var input = document.getElementById(eye.dataset.target);
-                var icon = eye.querySelector('ion-icon');
-                var show = input.type === 'password';
-                input.type = show ? 'text' : 'password';
-                icon.setAttribute('name', show ? 'eye' : 'eye-off');
-            });
-        });
+        return;
+    }
 
-        // ---- live password strength + match feedback ----
-        var regPassword = document.getElementById('regPassword');
-        var regConfirm = document.getElementById('regConfirm');
-        var strengthFill = document.getElementById('strengthFill');
-        var matchHint = document.getElementById('matchHint');
+    localStorage.setItem(
+        "abcTechLoggedIn",
+        JSON.stringify({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            username: user.username
+        })
+    );
 
-        function scorePassword(v) {
-            var score = 0;
-            if (v.length >= 6) score++;
-            if (v.length >= 10) score++;
-            if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
-            if (/[0-9]/.test(v) && /[^A-Za-z0-9]/.test(v)) score++;
-            return score;
-        }
-        function updateStrength() {
-            var s = scorePassword(regPassword.value);
-            var pct = [0, 25, 50, 75, 100][s];
-            var colors = ['#ff8080', '#ff8080', '#facc15', '#60a5fa', '#4ade80'];
-            strengthFill.style.width = pct + '%';
-            strengthFill.style.background = colors[s];
-        }
-        function updateMatch() {
-            if (!regConfirm.value) { matchHint.textContent = ''; matchHint.className = 'hint'; return; }
-            if (regPassword.value === regConfirm.value) {
-                matchHint.textContent = '✓ Passwords match';
-                matchHint.className = 'hint ok';
-            } else {
-                matchHint.textContent = 'Passwords do not match yet';
-                matchHint.className = 'hint bad';
-            }
-        }
-        regPassword.addEventListener('input', function () { updateStrength(); updateMatch(); });
-        regConfirm.addEventListener('input', updateMatch);
+    if(document.getElementById("remember").checked) {
 
-        // ---- register submit: validate, then dynamically switch to Login tab ----
-        document.getElementById('registerForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            if (regPassword.value !== regConfirm.value) {
-                matchHint.textContent = 'Passwords do not match';
-                matchHint.className = 'hint bad';
-                return;
-            }
-            activateTab('login');
-            document.getElementById('successBanner').style.display = 'block';
-        });
+        localStorage.setItem(
+            "abcTechRemember",
+            "true"
+        );
 
-        // ---- login submit placeholder ----
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-        });
+    }
 
-        // ---- support arriving with ?registered=1 or #register ----
-        if (new URLSearchParams(window.location.search).get('registered') === '1') {
-            document.getElementById('successBanner').style.display = 'block';
-        }
-        if (window.location.hash === '#register') {
-            activateTab('register');
-        }
-    </script>
+    success.textContent =
+        "✓ Login successful! Welcome, " + user.name;
+
+    success.style.display = "block";
+
+    document.getElementById("loginBtn").textContent =
+        "Login Successful ✓";
+
+    setTimeout(() => {
+
+        /*
+        Change this to your dashboard page.
+        Example:
+        window.location.href = "dashboard.html";
+        */
+
+        window.location.href = "index.html";
+
+    }, 1200);
+
+});
+
+function showLoginError(message) {
+
+    const error =
+        document.getElementById("loginError");
+
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+/* FORGOT PASSWORD */
+
+const forgotModal =
+    document.getElementById("forgotModal");
+
+document.getElementById("forgotBtn")
+.addEventListener("click", () => {
+
+    forgotModal.style.display = "flex";
+
+});
+
+document.getElementById("closeModal")
+.addEventListener("click", () => {
+
+    forgotModal.style.display = "none";
+
+});
+
+forgotModal.addEventListener("click", e => {
+
+    if(e.target === forgotModal) {
+
+        forgotModal.style.display = "none";
+
+    }
+
+});
+
+document.getElementById("resetBtn")
+.addEventListener("click", () => {
+
+    const email =
+        document.getElementById("resetEmail")
+        .value.trim()
+        .toLowerCase();
+
+    const error =
+        document.getElementById("resetError");
+
+    const success =
+        document.getElementById("resetSuccess");
+
+    error.style.display = "none";
+    success.style.display = "none";
+
+    const users =
+        JSON.parse(localStorage.getItem("abcTechUsers")) || [];
+
+    const user =
+        users.find(u => u.email === email);
+
+    if(!user) {
+
+        error.textContent =
+            "Email is not registered.";
+
+        error.style.display = "block";
+
+        return;
+    }
+
+    success.textContent =
+        "✓ Reset link demo sent to " + email;
+
+    success.style.display = "block";
+
+});
+
+/* URL REGISTER SUPPORT */
+
+if(window.location.hash === "#register") {
+
+    activateTab("register");
+
+}
+
+</script>
+
 </body>
 </html>
