@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Tech - Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at 20% 20%, #0f2447 0%, #060b1a 55%, #030509 100%);
+        }
+
+        /* ---------- animated tech background ---------- */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,198,255,.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,198,255,.08) 1px, transparent 1px);
+            background-size: 42px 42px;
+            animation: gridShift 18s linear infinite;
+        }
+        @keyframes gridShift {
+            to { background-position: 42px 42px, 42px 42px; }
+        }
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: .55;
+            pointer-events: none;
+        }
+        .blob1 {
+            width: 380px; height: 380px;
+            background: radial-gradient(circle, #00c6ff, transparent 70%);
+            top: -100px; left: -100px;
+            animation: floatA 12s ease-in-out infinite;
+        }
+        .blob2 {
+            width: 420px; height: 420px;
+            background: radial-gradient(circle, #7b2ff7, transparent 70%);
+            bottom: -140px; right: -120px;
+            animation: floatB 14s ease-in-out infinite;
+        }
+        .blob3 {
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, #0072ff, transparent 70%);
+            top: 50%; left: 60%;
+            animation: floatC 16s ease-in-out infinite;
+        }
+        @keyframes floatA {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(60px, 40px); }
+        }
+        @keyframes floatB {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(-50px, -60px); }
+        }
+        @keyframes floatC {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(-40px, 30px) scale(1.15); }
+        }
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #00c6ff;
+            opacity: .7;
+            animation: rise linear infinite;
+        }
+        @keyframes rise {
+            from { transform: translateY(0); opacity: 0; }
+            10% { opacity: .8; }
+            90% { opacity: .8; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* ---------- auth card ---------- */
+        .auth-card {
+            position: relative;
+            z-index: 2;
+            width: 380px;
+            max-width: 90vw;
+            padding: 34px 32px 28px;
+            background: rgba(15, 25, 45, 0.55);
+            border: 1px solid rgba(0, 198, 255, 0.25);
+            border-radius: 18px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.03) inset;
+        }
+
+        .login-brand { text-align: center; margin-bottom: 18px; }
+        .login-brand .brand-mark {
+            width: 56px;
+            height: 52px;
+            margin: 0 auto 10px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#00c6ff,#0072ff,#7b2ff7);
+            background-size: 200% 200%;
+            animation: brandGlow 6s ease infinite, brandPulse 3s ease-in-out infinite;
+            color: #fff;
+            font-family: 'Arial Black', Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: -1px;
+            font-size: 19px;
+            box-shadow: 0 4px 18px rgba(0,114,255,.5);
+        }
+        .login-brand .brand-name {
+            display: block;
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 28px;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg,#00c6ff,#0072ff,#7b2ff7,#00c6ff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: brandShine 5s linear infinite;
+        }
+        .login-brand .brand-dot { color: #00c6ff; -webkit-text-fill-color: #00c6ff; }
+        .login-brand .brand-tag {
+            display: block;
+            margin-top: 2px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #7fd8ff;
+        }
+        @keyframes brandShine { to { background-position: 300% center; } }
+        @keyframes brandGlow { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+        @keyframes brandPulse {
+            0%,100%{ box-shadow:0 4px 18px rgba(0,114,255,.5); }
+            50%{ box-shadow:0 4px 28px rgba(0,198,255,.85); }
+        }
+
+        /* ---------- tab switcher ---------- */
+        .tabs {
+            position: relative;
+            display: flex;
+            background: rgba(255,255,255,.06);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 22px;
+        }
+        .tab-indicator {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background: linear-gradient(135deg,#00c6ff,#0072ff);
+            border-radius: 7px;
+            transition: transform .35s cubic-bezier(.65,0,.35,1);
+            box-shadow: 0 4px 14px rgba(0,114,255,.45);
+        }
+        .tabs.on-register .tab-indicator { transform: translateX(100%); }
+        .tab-btn {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            padding: 9px 0;
+            background: none;
+            border: none;
+            color: #b9c8e0;
+            font-family: 'Poppins', sans-serif;
+            font-size: .85em;
+            font-weight: 600;
+            letter-spacing: .5px;
+            cursor: pointer;
+            transition: color .3s;
+        }
+        .tab-btn.active { color: #fff; }
+
+        /* ---------- panels ---------- */
+        .tab-panels { position: relative; }
+        .tab-panel {
+            display: none;
+            animation: panelIn .35s ease;
+        }
+        .tab-panel.active { display: block; }
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { font-size: 1.3em; color: #fff; text-align: center; margin-bottom: 4px; font-weight: 600; }
+        .sub { text-align: center; color: #8ea3c4; font-size: .78em; margin-bottom: 18px; }
+
+        .input-group { position: relative; width: 100%; margin: 16px 0; }
+        .input-group input {
+            width: 100%;
+            height: 42px;
+            font-size: .92em;
+            color: #fff;
+            padding: 0 38px 0 36px;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.18);
+            outline: none;
+            border-radius: 7px;
+            transition: border-color .25s, box-shadow .25s, background .25s;
+        }
+        .input-group input:focus {
+            border-color: #00c6ff;
+            background: rgba(0,198,255,.07);
+            box-shadow: 0 0 0 3px rgba(0,198,255,.15);
+        }
+        .input-group input::placeholder { color: #8296b8; }
+        .input-group .icon {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            color: #7fd8ff;
+            font-size: 1.15em;
+            line-height: 42px;
+        }
+        .input-group .toggle-eye {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            line-height: 42px;
+            color: #8296b8;
+            cursor: pointer;
+            font-size: 1.1em;
+            user-select: none;
+        }
+        .input-group .toggle-eye:hover { color: #00c6ff; }
+
+        .hint { margin: -10px 0 6px; font-size: .72em; min-height: 14px; transition: color .2s; }
+        .hint.ok { color: #4ade80; }
+        .hint.bad { color: #ff8080; }
+
+        .strength-bar {
+            height: 4px;
+            border-radius: 3px;
+            background: rgba(255,255,255,.1);
+            margin: -10px 0 14px;
+            overflow: hidden;
+        }
+        .strength-bar span {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: width .3s ease, background .3s ease;
+        }
+
+        .forgot-pass { margin: -8px 0 16px; text-align: right; }
+        .forgot-pass a { color: #7fd8ff; font-size: .8em; text-decoration: none; }
+        .forgot-pass a:hover { text-decoration: underline; }
+
+        .btn {
+            position: relative;
+            width: 100%;
+            height: 44px;
+            background: linear-gradient(135deg,#00c6ff,#0072ff);
+            box-shadow: 0 6px 18px rgba(0,114,255,.4);
+            font-size: .95em;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: .5px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            transition: transform .2s, box-shadow .2s, filter .2s;
+        }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn:active { transform: translateY(0); }
+
+        .success-banner {
+            display: none;
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            background: rgba(74, 222, 128, .12);
+            border: 1px solid #4ade80;
+            border-radius: 7px;
+            color: #d3ffe4;
+            font-size: .8em;
+            text-align: center;
+        }
+        .field-error {
+            display: none;
+            margin: -10px 0 12px;
+            color: #ff8080;
+            font-size: .75em;
+        }
+
+        .sign-link { font-size: .82em; text-align: center; margin-top: 16px; color: #8ea3c4; }
+        .sign-link a { color: #00c6ff; text-decoration: none; font-weight: 600; }
+        .sign-link a:hover { text-decoration: underline; }
+        .home-link { margin-top: 10px; }
+
+        @media (max-width: 420px){
+            .auth-card{
+                padding: 26px 20px 22px;
+            }
+            .login-brand .brand-name{
+                font-size: 24px;
+            }
+            .blob1, .blob2 { width: 260px; height: 260px; }
+            .blob3 { width: 180px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <span class="blob blob1"></span>
+    <span class="blob blob2"></span>
+    <span class="blob blob3"></span>
+    <div id="particles"></div>
+
+    <div class="auth-card">
+        <div class="login-brand">
+            <div class="brand-mark">AT</div>
+            <span class="brand-name">ABC Tech<span class="brand-dot">.</span></span>
+            <span class="brand-tag">Powering Ideas Into Code</span>
+        </div>
+
+        <div class="tabs" id="tabs">
+            <span class="tab-indicator"></span>
+            <button type="button" class="tab-btn active" data-tab="login">Login</button>
+            <button type="button" class="tab-btn" data-tab="register">Register</button>
+        </div>
+
+        <div class="tab-panels">
+            <!-- LOGIN -->
+            <form id="loginForm" class="tab-panel active" novalidate>
+                <h2>Welcome back</h2>
+                <p class="sub">Log in to your ABC Tech account</p>
+                <p class="success-banner" id="successBanner">&#10003; Account created — you can log in now.</p>
+
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <span class="toggle-eye" data-target="loginPassword"><ion-icon name="eye-off"></ion-icon></span>
+                </div>
+                <div class="forgot-pass"><a href="#">Forgot password?</a></div>
+                <button type="submit" class="btn">Login</button>
+                <p class="sign-link">New here? <a href="#" data-switch="register">Create an account</a></p>
+                <p class="sign-link home-link"><a href="index.html">&larr; Back to Home</a></p>
+            </form>
+
+            <!-- REGISTER -->
+            <form id="registerForm" class="tab-panel" novalidate>
+                <h2>Create account</h2>
+                <p class="sub">Join ABC Tech in a few seconds</p>
+
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="at"></ion-icon></span>
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="regPassword" placeholder="Password" required minlength="6">
+                    <span class="toggle-eye" data-target="regPassword"><ion-icon name="eye-off"></ion-icon></span>
+                </div>
+                <div class="strength-bar"><span id="strengthFill"></span></div>
+                <div class="input-group">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="regConfirm" placeholder="Confirm Password" required minlength="6">
+                    <span class="toggle-eye" data-target="regConfirm"><ion-icon name="eye-off"></ion-icon></span>
+                </div>
+                <p class="hint" id="matchHint"></p>
+
+                <button type="submit" class="btn">Register</button>
+                <p class="sign-link">Already have an account? <a href="#" data-switch="login">Log in</a></p>
+                <p class="sign-link home-link"><a href="index.html">&larr; Back to Home</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        // ---- floating particles ----
+        var particleHost = document.getElementById('particles');
+        for (var i = 0; i < 26; i++) {
+            var p = document.createElement('span');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.bottom = '-10px';
+            p.style.animationDuration = (8 + Math.random() * 10) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            particleHost.appendChild(p);
+        }
+
+        // ---- tab switching (dynamic, no reload) ----
+        var tabs = document.getElementById('tabs');
+        var tabBtns = tabs.querySelectorAll('.tab-btn');
+        var panels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(name) {
+            tabBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.tab === name); });
+            panels.forEach(function (p) { p.classList.toggle('active', p.id === name + 'Form'); });
+            tabs.classList.toggle('on-register', name === 'register');
+        }
+        tabBtns.forEach(function (b) {
+            b.addEventListener('click', function () { activateTab(b.dataset.tab); });
+        });
+        document.querySelectorAll('[data-switch]').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                activateTab(a.dataset.switch);
+            });
+        });
+
+        // ---- password show/hide ----
+        document.querySelectorAll('.toggle-eye').forEach(function (eye) {
+            eye.addEventListener('click', function () {
+                var input = document.getElementById(eye.dataset.target);
+                var icon = eye.querySelector('ion-icon');
+                var show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                icon.setAttribute('name', show ? 'eye' : 'eye-off');
+            });
+        });
+
+        // ---- live password strength + match feedback ----
+        var regPassword = document.getElementById('regPassword');
+        var regConfirm = document.getElementById('regConfirm');
+        var strengthFill = document.getElementById('strengthFill');
+        var matchHint = document.getElementById('matchHint');
+
+        function scorePassword(v) {
+            var score = 0;
+            if (v.length >= 6) score++;
+            if (v.length >= 10) score++;
+            if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
+            if (/[0-9]/.test(v) && /[^A-Za-z0-9]/.test(v)) score++;
+            return score;
+        }
+        function updateStrength() {
+            var s = scorePassword(regPassword.value);
+            var pct = [0, 25, 50, 75, 100][s];
+            var colors = ['#ff8080', '#ff8080', '#facc15', '#60a5fa', '#4ade80'];
+            strengthFill.style.width = pct + '%';
+            strengthFill.style.background = colors[s];
+        }
+        function updateMatch() {
+            if (!regConfirm.value) { matchHint.textContent = ''; matchHint.className = 'hint'; return; }
+            if (regPassword.value === regConfirm.value) {
+                matchHint.textContent = '✓ Passwords match';
+                matchHint.className = 'hint ok';
+            } else {
+                matchHint.textContent = 'Passwords do not match yet';
+                matchHint.className = 'hint bad';
+            }
+        }
+        regPassword.addEventListener('input', function () { updateStrength(); updateMatch(); });
+        regConfirm.addEventListener('input', updateMatch);
+
+        // ---- register submit: validate, then dynamically switch to Login tab ----
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (regPassword.value !== regConfirm.value) {
+                matchHint.textContent = 'Passwords do not match';
+                matchHint.className = 'hint bad';
+                return;
+            }
+            activateTab('login');
+            document.getElementById('successBanner').style.display = 'block';
+        });
+
+        // ---- login submit placeholder ----
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+
+        // ---- support arriving with ?registered=1 or #register ----
+        if (new URLSearchParams(window.location.search).get('registered') === '1') {
+            document.getElementById('successBanner').style.display = 'block';
+        }
+        if (window.location.hash === '#register') {
+            activateTab('register');
+        }
+    </script>
+</body>
+</html>
