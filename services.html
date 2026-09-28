@@ -58,31 +58,25 @@
        HEADER
     ========================= */
 
-    .header {
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 15px 35px;
 
-        display: flex;
-        flex-wrap: wrap;
+    background: #ffffff;
 
-        align-items: center;
-        justify-content: space-between;
+    border-bottom: 1px solid #e5e5e5;
 
-        gap: 15px;
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.12);
 
-        padding: 15px 35px;
+    position: relative;
+    z-index: 100;
+}
 
-        background: rgba(255, 255, 255, 0.88);
-
-        backdrop-filter: blur(14px);
-
-        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-
-        box-shadow:
-            0 5px 25px rgba(0, 0, 0, 0.12);
-
-        position: relative;
-
-        z-index: 100;
-    }
 
 
     /* =========================
